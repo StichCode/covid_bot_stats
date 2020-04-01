@@ -8,7 +8,7 @@ from bot.covid19_statistic import CovidStats
 bot = telebot.TeleBot(Config.TOKEN)
 
 apihelper.proxy = {'https': f'socks5://{Config.PROXY_USERNAME}:{Config.PROXY_PASSWORD}'
-                            f'@{Config.PROXY_IP}:{Config.PROXY_PORT}'}
+                            f'@{Config.PROXY_ADDRESS}:{Config.PROXY_PORT}'}
 
 text_btn = ['All info', 'Info about Russia', 'I want choose location']
 
