@@ -9,7 +9,7 @@ deploy:
     - rsync -a --info=progress2 --delete . $LOCAL_DIR/app
     - rm -rf $LOCAL_DIR/venv
     - python3.8 -m venv $LOCAL_DIR/venv && source $LOCAL_DIR/venv/bin/activate && pip install -r $LOCAL_DIR/app/requirments.txt
-    - sudo systemctl start home_bot.service
+    - sudo systemctl start civid19.service
   tags:
-    - home-bot
+    - covid19
   when: manual
