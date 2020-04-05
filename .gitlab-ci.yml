@@ -11,5 +11,5 @@ deploy:
     - python3.8 -m venv $LOCAL_DIR/venv && source $LOCAL_DIR/venv/bin/activate && pip install -r $LOCAL_DIR/app/requirements.txt
     - sudo systemctl start civid19.service
   tags:
-    - covid
+    - covid19
   when: manual
