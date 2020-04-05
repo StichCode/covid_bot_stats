@@ -5,11 +5,11 @@ stages:
 deploy:
   stage: deploy
   script:
-    - sudo systemctl stop civid19.service
+    - sudo systemctl stop covid19.service
     - rsync -a --info=progress2 --delete . $LOCAL_DIR/app
     - rm -rf $LOCAL_DIR/venv
     - python3.8 -m venv $LOCAL_DIR/venv && source $LOCAL_DIR/venv/bin/activate && pip install -r $LOCAL_DIR/app/requirements.txt
-    - sudo systemctl start civid19.service
+    - sudo systemctl start covid19.service
   tags:
     - covid19
   when: manual
