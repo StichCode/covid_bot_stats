@@ -1,6 +1,6 @@
 default:
   before_script:
-    - apt-get install -qq -y rsync python3.8 python3-dev
+    - sudo apt-get install -qq -y rsync python3.8 python3-dev
 
 stages:
   - deploy
