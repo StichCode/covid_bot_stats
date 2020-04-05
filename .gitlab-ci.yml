@@ -12,4 +12,3 @@ deploy:
     - sudo systemctl start covid19.service
   tags:
     - covid19
-  when: manual
