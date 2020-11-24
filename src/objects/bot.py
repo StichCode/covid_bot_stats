@@ -5,7 +5,7 @@ from loguru import logger
 from telebot import types
 
 from config import CONFIG
-from src.functions.covid19_statistic import CovidStats
+from src.objects.covid19_statistic import CovidStats
 
 bot = telebot.TeleBot(CONFIG.token)
 
@@ -30,10 +30,11 @@ def start_message(message):
 def info_covid19(message):
     covid = CovidStats()
     get_message = message.text
+    logger.info("User: {}".format(message.chat.id))
     if get_message == text_btn[0]:
-        bot.send_message(message.chat.id, covid.convert_to_html(covid.get_all_stats()), parse_mode='html')
+        bot.send_message(message.chat.id, covid.html(), parse_mode='html')
     elif get_message == text_btn[1]:
-        bot.send_message(message.chat.id, covid.convert_to_html(covid.get_stats_by_location()), parse_mode='html')
+        bot.send_message(message.chat.id, covid.html('location'), parse_mode='html')
     elif get_message == text_btn[2]:
         bot.send_message(message.chat.id, "Not works!")
 
