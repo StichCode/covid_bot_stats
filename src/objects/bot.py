@@ -1,14 +1,13 @@
+import time
+
 import telebot
-from telebot import apihelper, types
+from loguru import logger
+from telebot import types
 
-from bot.config import Config
-from bot.covid19_statistic import CovidStats
+from config import CONFIG
+from src.functions.covid19_statistic import CovidStats
 
-
-bot = telebot.TeleBot(Config.TOKEN)
-
-apihelper.proxy = {'https': f'socks5://{Config.PROXY_USERNAME}:{Config.PROXY_PASSWORD}'
-                            f'@{Config.PROXY_ADDRESS}:{Config.PROXY_PORT}'}
+bot = telebot.TeleBot(CONFIG.token)
 
 text_btn = ['All info', 'Info about Russia', 'I want choose location']
 
@@ -39,4 +38,10 @@ def info_covid19(message):
         bot.send_message(message.chat.id, "Not works!")
 
 
-bot.polling(none_stop=True, interval=1, timeout=0)
+def start_bot():
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=1, timeout=0)
+        except Exception as ex:
+            logger.exception(ex)
+            time.sleep(10)

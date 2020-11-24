@@ -1,40 +1,46 @@
 import requests
 from bs4 import BeautifulSoup
+from loguru import logger
+
+from config import CONFIG
 
 
 class CovidStats:
-    thead = ['Country', 'Total cases', 'New Cases', 'Total Deaths', 'New Deaths', 'Total Recovered', 'Active Cases']
 
     previous_all_data_from_table = []
 
-    def __init__(self):
-        self.url = "https://www.worldometers.info/coronavirus/"
+    def __init__(self) -> None:
+        self.url = CONFIG.url
         self.bs = BeautifulSoup(requests.get(self.url).content, 'html.parser')
         self.table_tag = self.bs.table
 
-    def get_all_stats(self):
+    def get_all_stats(self) -> dict:
         stats = self.bs.find_all("div", attrs={"id": "maincounter-wrap"})
         dict_with_stats = {}
         for div in stats:
             dict_with_stats[div.h1.string[:-1]] = div.div.span.string
+        logger.debug("Get global stats: {}".format(dict_with_stats))
         return dict_with_stats
 
-    def __get_data(self):
+    def __get_data(self) -> list:
         tbody = self.table_tag.tbody.find_all("tr")
         result = []
         for i in range(len(tbody)):
             result.append([td.string for td in tbody[i].find_all("td")])
+        logger.debug("Get data from WorldMeters: {}".format(result))
         return result
 
-    def __prepare_data(self):
+    def __prepare_data(self) -> dict:
         data = self.__get_data()
         new_prepared_dict = {}
         for row in data:
-            new_prepared_dict[row[0]] = dict([i for i in zip(self.thead, row)])
-        self.previous_all_data_from_table = new_prepared_dict
+            if row[0] is None:
+                continue
+            new_prepared_dict[row[1]] = dict([i for i in zip(CONFIG.thead, row)])
+        logger.debug("Prepared data: \n {}".format(new_prepared_dict))
         return new_prepared_dict
 
-    def get_stats_by_location(self, country_code="Russia"):
+    def get_stats_by_location(self, country_code="Russia") -> dict:
         data = self.__prepare_data()
         return data[country_code]
 
@@ -49,5 +55,7 @@ class CovidStats:
     def convert_to_html(data):
         prepare_message = "<u>Stats about Pandemic:</u>\n"
         for k, v in data.items():
+            if k == "Num":
+                continue
             prepare_message += f"<b>{k}</b>: {v}\n"
         return prepare_message
