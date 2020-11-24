@@ -16,6 +16,6 @@ deploy:
     TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID
   script:
     - docker build -t covid_bot:$TAG .
-    - docker run -d --name covid_bot -it covid_bot:TAG
+    - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:TAG
   tags:
     - covid
