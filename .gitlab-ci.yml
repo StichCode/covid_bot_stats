@@ -1,15 +1,27 @@
-stages:
-  - deploy
+image: python:3.9.1-slim
 
-deploy:
-  stage: deploy
-  image: python:3.9.1-slim
+stages:
+  - build
+  - run
+
+services:
+  - docker:dind
+
+build:
+  stage: build
   script:
-    - docker build -t covid_bot:$TAG .
     - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
   tags:
     - covid-docker
   timeout: 90m
+
+run:
+  stage: run
+  script:
+    - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
+  tags:
+    - covid-docker
+
 
 variables:
   TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID
