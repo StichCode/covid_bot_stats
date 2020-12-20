@@ -5,12 +5,15 @@ stages:
   - run
 
 services:
-  - docker:dind
+  - docker:19.03.12-dind
+
+before_script:
+  - docker info
 
 build:
   stage: build
   script:
-    - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
+    - docker build -t covid_bot:$TAG .
   tags:
     - covid-docker
   timeout: 90m
@@ -21,6 +24,10 @@ run:
     - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
   tags:
     - covid-docker
+  timeout: 90m
+
+
+
 
 
 variables:
