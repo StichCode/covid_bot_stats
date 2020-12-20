@@ -1,21 +1,14 @@
 stages:
-  - clear
   - deploy
 
-clear:
-  stage: clear
-  allow_failure: true
-  script:
-    - docker stop covid_bot
-  tags:
-    - covid
-
 deploy:
-  stage: deploy
-  variables:
-    TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID
+  image: python:3.9.1-slim
   script:
     - docker build -t covid_bot:$TAG .
     - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
   tags:
-    - covid
+    - covid-docker
+  timeout: 90m
+
+variables:
+  TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID
