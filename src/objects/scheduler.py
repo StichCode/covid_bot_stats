@@ -1,6 +1,4 @@
 from copy import copy
-
-import schedule
 from loguru import logger
 
 from src.functions.send_notification import NOTIFY_QUEUE
@@ -14,7 +12,7 @@ class CovidScheduler:
         self.covid = CovidStats
         self.prev_data = ""
 
-    def __check_data(self):
+    def check(self):
         data = self.covid().html()
         if self.prev_data != data:
             logger.info("Put data to queue > {}".format(data))
@@ -22,9 +20,3 @@ class CovidScheduler:
             self.prev_data = copy(data)
         else:
             logger.info("No new data")
-
-    def start(self):
-        logger.info("Start thread with scheduler")
-        schedule.every(interval=12).hours.do(self.__check_data)
-        while True:
-            schedule.run_pending()

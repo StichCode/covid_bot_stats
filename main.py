@@ -2,15 +2,23 @@ import threading
 
 from loguru import logger
 
+from src.functions.pulse import pulse_thread
 from src.functions.send_notification import send_wrapper
 from src.objects.bot import start_bot
+from src.objects.interval import Interval
 from src.objects.scheduler import CovidScheduler
 
 
 def main():
     logger.info("Start bot")
-    threads = [start_bot, send_wrapper, CovidScheduler().start]
-    [threading.Thread(target=thr).start() for thr in threads]
+    threads_names = {start_bot: "BotThread", send_wrapper: "NotifyThread"}
+    interval = Interval(interval=3600, function=CovidScheduler().check)  # every 1 hour
+    interval.name = "IntervalThread"
+    interval.start()
+    threads = [threading.Thread(target=thr, name=name)for thr, name in threads_names.items()]
+    [thr.start() for thr in threads]
+    pulse = Interval(interval=5, function=pulse_thread, args=(threads,))
+    pulse.start()
 
 
 if __name__ == '__main__':

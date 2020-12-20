@@ -23,11 +23,12 @@ def send_wrapper():
 
 def __send(user_id: int, text: str):
     headers = {"Content-Type": "application/json"}
-    data = {"chat_id": user_id, "text": text}
-    logger.info("Try send message to user: {} \n {}".format(data['chat_id'], data["text"]))
+    url = URL.send_text(user_id, text)
+    logger.info("Try send message to url: {}".format(url))
     try:
-        requests.post(url=URL.send_text, headers=headers, data=data)
+        res = requests.post(url=url, headers=headers)
+        if res.status_code != 200:
+            raise Exception(f"Status code: {res.status_code}")
         logger.info("Successfully send message")
-    except Exception as ex:
+    except Exception:
         logger.exception("Message not send with exception")
-        logger.exception(ex)

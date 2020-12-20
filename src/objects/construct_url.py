@@ -10,6 +10,8 @@ class Url:
     def _url(self):
         return "https://{0}/bot{1}".format(self._host, self._token)
 
-    @property
-    def send_text(self):
-        return '{0}/{1}'.format(self._url, "sendMessage")
+    def send_text(self, chat_id, text, parse_mod="markdown"):
+        return '{0}/sendMessage?chat_id={1}&text={2}&parse_mode='.format(self._url, chat_id, text, parse_mod)
+
+    def error_message(self, text):
+        return self.send_text(295290188, text)
