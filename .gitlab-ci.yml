@@ -2,6 +2,7 @@ stages:
   - deploy
 
 deploy:
+  stage: deploy
   image: python:3.9.1-slim
   script:
     - docker build -t covid_bot:$TAG .
