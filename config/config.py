@@ -13,7 +13,7 @@ class Config(BaseModel):
 
 
 CONFIG = Config(
-    token=os.getenv("TOKEN"),
+    token=os.getenv("TOKEN", "1252959267:AAHmPMXM9IddJWshUjGfCJaR7FluuZqJRF8"),
     url="https://www.worldometers.info/coronavirus/",
     thead=['Num',
            'Country',
