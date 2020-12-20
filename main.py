@@ -14,10 +14,16 @@ def main():
     threads_names = {start_bot: "BotThread", send_wrapper: "NotifyThread"}
     interval = Interval(interval=3600, function=CovidScheduler().check)  # every 1 hour
     interval.name = "IntervalThread"
+    # interval.daemon = True
     interval.start()
+
     threads = [threading.Thread(target=thr, name=name)for thr, name in threads_names.items()]
     [thr.start() for thr in threads]
-    pulse = Interval(interval=5, function=pulse_thread, args=(threads,))
+
+    threads.append(interval)
+
+    pulse = Interval(interval=10, function=pulse_thread, args=(threads,))
+    pulse.daemon = True
     pulse.start()
 
 
