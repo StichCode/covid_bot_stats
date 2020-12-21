@@ -3,5 +3,5 @@ def convert_to_html(data):
     for k, v in data.items():
         if k == "Num":
             continue
-        prepare_message += f"<b>{k:45}</b>: {v}\n"
+        prepare_message += f"<b>{k:18}</b>: {v}\n"
     return prepare_message

@@ -12,7 +12,7 @@ from src.objects.scheduler import CovidScheduler
 def main():
     logger.info("Start bot")
     threads_names = {start_bot: "BotThread", send_wrapper: "NotifyThread"}
-    interval = Interval(interval=3600, function=CovidScheduler().check)  # every 1 hour
+    interval = Interval(interval=1800, function=CovidScheduler().check)  # every 1 hour
     interval.name = "IntervalThread"
     interval.start()
 

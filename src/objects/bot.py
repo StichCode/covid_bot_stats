@@ -31,7 +31,7 @@ def inline_mk(user_id):
 @bot.message_handler(commands=['start', 'help'])
 def start_message(message):
     if not CACHE.is_exist(message.chat.id):
-        CACHE.put('users', message.chat.id, False, False)
+        CACHE.put_user(message.chat.id, False, False)
     mk = inline_mk(message.chat.id)
     logger.info("User send message {0}".format(str(message.chat.id)))
     bot.send_message(message.chat.id, "Hello, what you want to known?", reply_markup=mk)

@@ -21,10 +21,15 @@ class DataBase:
     def cursor(self):
         return self.conn.cursor()
 
-    def put(self, table, *args):
-        self.cursor.execute("INSERT INTO {0} VALUES ({1}, {2}, {3});".format(table, *args))
+    def put_user(self, *args):
+        self.cursor.execute("INSERT INTO users VALUES ({1}, {2}, {3});".format(*args))
         self.conn.commit()
-        logger.info(f"Data insert into {table} with {','.join([str(i) for i in args])} complete")
+        logger.info(f"Data insert into users with {','.join([str(i) for i in args])} complete")
+
+    def put_statistic(self, *args):
+        self.cursor.execute("INSERT INTO statistic (timepredict, data, general) VALUES (?, ?, ?)", args)
+        self.conn.commit()
+        logger.info(f"Data insert into statistic with {','.join([str(i) for i in args])} complete")
 
     def get(self, table, one=False, column=None):
         __sql = "SELECT {0} FROM {1};".format(str(column or '*'), table)
@@ -47,6 +52,10 @@ class DataBase:
             # logger.warning(f"No user with this id {str(id_user)}, try to subs or unsubs")
             return False
         return True
+
+    def notify_users_id(self):
+        """ return users what want notifications """
+        return self.cursor.execute("SELECT id FROM users WHERE subscribe = True").fetchall()
 
 
 CACHE = DataBase()

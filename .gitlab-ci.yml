@@ -1,34 +1,34 @@
-image: python:3.9.1-slim
-
-stages:
-  - build
-  - run
-
-services:
-  - docker:19.03.12-dind
-
-before_script:
-  - docker info
-
-build:
-  stage: build
-  script:
-    - docker build -t covid_bot:$TAG .
-  tags:
-    - covid-docker
-  timeout: 90m
-
-run:
-  stage: run
-  script:
-    - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
-  tags:
-    - covid-docker
-  timeout: 90m
-
-
-
-
-
-variables:
-  TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID
+#image: python:3.9.1-slim
+#
+#stages:
+#  - build
+#  - run
+#
+#services:
+#  - docker:19.03.12-dind
+#
+#before_script:
+#  - docker info
+#
+#build:
+#  stage: build
+#  script:
+#    - docker build -t covid_bot:$TAG .
+#  tags:
+#    - covid-docker
+#  timeout: 90m
+#
+#run:
+#  stage: run
+#  script:
+#    - docker run -d --env TOKEN=$TOKEN --name covid_bot -it covid_bot:$TAG
+#  tags:
+#    - covid-docker
+#  timeout: 90m
+#
+#
+#
+#
+#
+#variables:
+#  TAG: $CI_COMMIT_BRANCH-$CI_JOB_ID

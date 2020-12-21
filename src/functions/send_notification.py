@@ -4,6 +4,7 @@ import requests
 from loguru import logger
 
 from config import CONFIG
+from src.objects.cache import CACHE
 from src.objects.construct_url import Url
 
 
@@ -16,8 +17,8 @@ def send_wrapper():
     while True:
         item = NOTIFY_QUEUE.get()
         logger.info("Get data from queue")
-        for user in CONFIG.admins:
-            __send(user_id=user, text=item)
+        for user in CACHE.notify_users_id():
+            __send(user_id=user[0], text=item)
         NOTIFY_QUEUE.task_done()
 
 
@@ -31,4 +32,4 @@ def __send(user_id: int, text: str):
             raise Exception(f"Status code: {res.status_code}")
         logger.info("Successfully send message")
     except Exception:
-        logger.exception("Message not send with exception")
+        logger.exception("Message not send")
