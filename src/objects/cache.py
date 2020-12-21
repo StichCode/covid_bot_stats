@@ -22,7 +22,7 @@ class DataBase:
         return self.conn.cursor()
 
     def put_user(self, *args):
-        self.cursor.execute("INSERT INTO users VALUES ({1}, {2}, {3});".format(*args))
+        self.cursor.execute("INSERT INTO users VALUES ({0}, {1}, {2});".format(*args))
         self.conn.commit()
         logger.info(f"Data insert into users with {','.join([str(i) for i in args])} complete")
 
