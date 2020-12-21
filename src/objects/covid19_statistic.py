@@ -18,7 +18,7 @@ class CovidStats:
         dict_with_stats = {}
         for div in stats:
             dict_with_stats[div.h1.string[:-1]] = div.div.span.string
-        logger.debug("Get global stats: {}".format(dict_with_stats))
+        logger.debug("Get global stats")
         return dict_with_stats
 
     def get_stats_by_location(self, country_code="Russia") -> dict:
@@ -37,7 +37,7 @@ class CovidStats:
         result = []
         for i in range(len(tbody)):
             result.append([td.string for td in tbody[i].find_all("td")])
-        logger.debug("Get data from WorldMeters: {}".format(result))
+        logger.debug("Get data from WorldMeters")
         return result
 
     def __prepare_data(self) -> dict:
@@ -47,7 +47,7 @@ class CovidStats:
             if row[0] is None:
                 continue
             new_prepared_dict[row[1]] = dict([i for i in zip(CONFIG.thead, row)])
-        logger.debug("Prepared data: \n {}".format(new_prepared_dict))
+        logger.debug("Prepared data complete")
         return new_prepared_dict
 
     def html(self, name_data: str = None):

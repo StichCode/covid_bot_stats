@@ -14,7 +14,6 @@ def main():
     threads_names = {start_bot: "BotThread", send_wrapper: "NotifyThread"}
     interval = Interval(interval=3600, function=CovidScheduler().check)  # every 1 hour
     interval.name = "IntervalThread"
-    # interval.daemon = True
     interval.start()
 
     threads = [threading.Thread(target=thr, name=name)for thr, name in threads_names.items()]

@@ -9,7 +9,7 @@ class Config(BaseModel):
     token: str
     url: str
     thead: List[str]
-    users: List[int]
+    admins: List[int]
 
 
 CONFIG = Config(
@@ -25,7 +25,7 @@ CONFIG = Config(
            'New Recovered',
            'Active Cases',
            'Critical'],
-    users=[295290188],
+    admins=[295290188],
 )
 
 logger.info(CONFIG)

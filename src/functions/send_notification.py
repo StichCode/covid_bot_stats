@@ -16,14 +16,14 @@ def send_wrapper():
     while True:
         item = NOTIFY_QUEUE.get()
         logger.info("Get data from queue")
-        for user in CONFIG.users:
+        for user in CONFIG.admins:
             __send(user_id=user, text=item)
         NOTIFY_QUEUE.task_done()
 
 
 def __send(user_id: int, text: str):
     headers = {"Content-Type": "application/json"}
-    url = URL.send_text(user_id, text)
+    url = URL.send_text(user_id, text, 'html')
     logger.info("Try send message to url: {}".format(url))
     try:
         res = requests.post(url=url, headers=headers)
