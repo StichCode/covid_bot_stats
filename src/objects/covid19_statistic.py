@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests
 from bs4 import BeautifulSoup
 from loguru import logger
@@ -50,7 +52,7 @@ class CovidStats:
         logger.debug("Prepared data complete")
         return new_prepared_dict
 
-    def html(self, name_data: str = None):
+    def html(self, name_data: Optional[str] = None):
         data = self.get_all_stats()
         if name_data == "location":
             data = self.get_stats_by_location()
