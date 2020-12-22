@@ -5,11 +5,13 @@ from loguru import logger
 from src.functions.pulse import pulse_thread
 from src.functions.send_notification import send_wrapper
 from src.objects.bot import start_bot
+from src.objects.construct_url import Url
 from src.objects.interval import Interval
 from src.objects.scheduler import CovidScheduler
 
 
 def main():
+    logger.add("file.log")
     logger.info("Start bot")
     threads_names = {start_bot: "BotThread", send_wrapper: "NotifyThread"}
     interval = Interval(interval=1800, function=CovidScheduler().check)  # every 1 hour

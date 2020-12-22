@@ -24,7 +24,7 @@ def send_wrapper():
 
 def __send(user_id: int, text: str):
     headers = {"Content-Type": "application/json"}
-    url = URL.send_text(user_id, text, 'html')
+    url = URL.send_text(user_id, text, parse_mod='html')
     logger.info("Try send message to url: {}".format(url))
     try:
         res = requests.post(url=url, headers=headers)
